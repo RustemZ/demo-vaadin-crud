@@ -1,5 +1,8 @@
 package hello;
 
+import elemental.json.Json;
+import elemental.json.JsonObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,5 +51,17 @@ public class Customer {
 		return String.format("Customer[id=%d, firstName='%s', lastName='%s']", id,
 				firstName, lastName);
 	}
+
+	public JsonObject toJsonObject() {
+		JsonObject jsonContact = Json.createObject();
+		jsonContact.put("id", id);
+		jsonContact.put("firstName", firstName);
+		jsonContact.put("lastName", lastName);
+//		jsonContact.put("phoneNumber", phoneNumber);
+//		jsonContact.put("email", email);
+		return jsonContact;
+	}
+
+
 
 }

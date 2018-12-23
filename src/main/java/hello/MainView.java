@@ -1,79 +1,91 @@
 package hello;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.annotation.UIScope;
-import org.springframework.util.StringUtils;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.theme.lumo.Lumo;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Route
+@Theme(value = Lumo.class)
 public class MainView extends VerticalLayout {
 
-	private final CustomerRepository repo;
+    private final CustomerRepository repo;
 
-	private final CustomerEditor editor;
+//    private final CustomerEditor editor;
+//
+//    final Grid<Customer> grid;
+//
+//    final TextField filter;
+    final Tab tabForJava;
+    final Tab tabForWeb;
 
-	final Grid<Customer> grid;
+    final Tabs tabSwitch;
 
-	final TextField filter;
+//    private final Button addNewBtn;
 
-	private final Button addNewBtn;
+    private void createTabs() {
+    }
 
-	public MainView(CustomerRepository repo, CustomerEditor editor) {
-		this.repo = repo;
-		this.editor = editor;
-		this.grid = new Grid<>(Customer.class);
-		this.filter = new TextField();
-		this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
+    Div createGlobalDiv(TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
+        return new Div(tabJavaContent, tabWebCompContent);
+    }
 
-		// build layout
-		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-		add(actions, grid, editor);
+    public MainView(CustomerRepository repo, TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
 
-		grid.setHeight("300px");
-		grid.setColumns("id", "firstName", "lastName");
-		grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
+        this.repo = repo;
+//        this.editor = editor;
+//        this.grid = new Grid<>(Customer.class);
+//        this.filter = new TextField();
+//        this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
+//        // build layout
+//        HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
 
-		filter.setPlaceholder("Filter by last name");
+        this.tabForJava = new Tab("Using Java");
+        tabForJava.setId("tab-for-java-comp");
+        this.tabForWeb = new Tab("Using Web Component");
+        tabForWeb.setId("tab-for-web-comp");
+        this.tabSwitch = new Tabs(tabForJava, tabForWeb);
+        //Div divJava = new Div(actions, grid, editor);
+        //divJava.setText("For java ");
 
-		// Hook logic to components
+//        Div div2 = new Div();
+//        div2.setText("For web component ");
+//        div2.setVisible(false);
+        tabWebCompContent.setVisible(false);
+        Div globalDiv = createGlobalDiv(tabJavaContent, tabWebCompContent);
+        globalDiv.setWidth("700px");
+        globalDiv.setHeight("500px");
 
-		// Replace listing with filtered content when user changes filter
-		filter.setValueChangeMode(ValueChangeMode.EAGER);
-		filter.addValueChangeListener(e -> listCustomers(e.getValue()));
+        add( tabSwitch, globalDiv);
+        Map<Tab, Component> tabsToPages = new HashMap<>();
+        tabsToPages.put(tabForJava, tabJavaContent);
+        tabsToPages.put(tabForWeb, tabWebCompContent );
 
-		// Connect selected Customer to editor or hide if none is selected
-		grid.asSingleSelect().addValueChangeListener(e -> {
-			editor.editCustomer(e.getValue());
-		});
+        Set<Component> pagesShown = new HashSet<>();
+        pagesShown.add(tabJavaContent);
+        tabSwitch.addSelectedChangeListener(event -> {
+            pagesShown.forEach(page -> page.setVisible(false));
+            pagesShown.clear();
+            Component selectedPage = tabsToPages.get(tabSwitch.getSelectedTab());
+            selectedPage.setVisible(true);
+            pagesShown.add(selectedPage);
+        });
+    }
 
-		// Instantiate and edit new Customer the new button is clicked
-		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));
+    public Tabs getTabSwitch() {
+        return tabSwitch;
+    }
 
-		// Listen changes made by the editor, refresh data from backend
-		editor.setChangeHandler(() -> {
-			editor.setVisible(false);
-			listCustomers(filter.getValue());
-		});
 
-		// Initialize listing
-		listCustomers(null);
-	}
 
-	// tag::listCustomers[]
-	void listCustomers(String filterText) {
-		if (StringUtils.isEmpty(filterText)) {
-			grid.setItems(repo.findAll());
-		}
-		else {
-			grid.setItems(repo.findByLastNameStartsWithIgnoreCase(filterText));
-		}
-	}
-	// end::listCustomers[]
 
 }
