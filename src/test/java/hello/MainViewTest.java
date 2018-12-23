@@ -1,106 +1,62 @@
 package hello;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.testbench.TestBenchTestCase;
-import elemental.html.ButtonElement;
-import org.junit.After;
-import org.junit.Assert;
 import org.mockito.Mock;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.BDDAssertions.*;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = MainViewTests.Config.class, properties = "spring.datasource.generate-unique-name=true")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest(classes = Application.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MainViewTest extends TestBenchTestCase{
 
-//	@Before
-//	public void setup() {
-//		// Create a new browser instance
-//		setDriver(new ChromeDriver());
-//		// Open the application
-//		getDriver().get("http://localhost:8080/");
-//	}
-//
-//	@After
-//	public void tearDown()  {
-//		// close the browser instance when all tests are done
-//		getDriver().quit();
-//	}
-
-//	@Test
-//	public void clickButton() {
-//
-//		// Find the first button (<vaadin-button>) on the page
-//		Tab tab1 = (Tab) findElement(By.id("tab-for-java-comp"));
-//		//Tab tab1 = $(Tab.class).id("tab-for-java-comp");
-//		tab1.setSelected(true);
-//		//Tab tab2 = $(Tab.class).id("tab-for-web-comp");
-//		Tab tab2 = (Tab) findElement(By.id("tab-for-web-comp"));
-//		//tab2.setSelected(true);
-//
-//		// Click it
-//		//button.click();
-//
-//		// Check the the value of the button is "Clicked"
-//		Assert.assertEquals(true, tab2.isVisible());
-//	}
-// 	@Autowired
-//	CustomerRepository repository;
- 	@Mock
-	TabJavaContent javaComp;
 	@Mock
-	TabWebCompContent webComp;
+	Tabs tabs;
+	@Mock
+	Tab tabJavaComp;
+	@Mock
+	Tab tabWebComp;
+ 	@Mock
+	TabJavaContent contentJavaComp;
+	@Mock
+	TabWebCompContent contentWebComp;
 	@Mock
 	Div globalDiv;
 
 	MainView mainView;
 
+
 	@Test
-	public void dump() {
-		mainView.getTabSwitch().setSelectedTab( mainView.tabForJava );
-		//mainView.getTabSwitch().setSelectedIndex(0);
-		verify(webComp).setVisible(false);
-		//verify(javaComp).setVisible(true);
+	public void creation() {
+		final ComponentEventListener[] listener = {null};
+		when(tabs.addSelectedChangeListener( any(ComponentEventListener.class) )).thenAnswer(
+				(InvocationOnMock invocation) -> {
+					listener[0] = (ComponentEventListener) (invocation.getArguments()[0]);
+					return null;
+				});
+		this.mainView = createMainView();
+
+		when(tabs.getSelectedTab()).thenReturn(tabWebComp);
+		listener[0].onComponentEvent(null);
+
+		verify(contentWebComp, times(1)).setVisible(false);
+		verify(contentWebComp, times(1)).setVisible(true);
+		verify(contentJavaComp, times(1)).setVisible(false);
 
 	}
 
-	@Test
-	public void dump2() {
-		mainView.getTabSwitch().setSelectedTab( mainView.tabForWeb );
-		//mainView.getTabSwitch().setSelectedIndex(0);
-		verify(javaComp).setVisible(false);
-		//verify(javaComp).setVisible(true);
-
-	}
-
-
-	@Before
-	public void setup() {
-		this.mainView = new MainView(null, javaComp, webComp){
+	private MainView createMainView() {
+		return new MainView(null, contentJavaComp, contentWebComp){
 			@Override
 			Div createGlobalDiv(TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
 				return globalDiv;
@@ -108,88 +64,35 @@ public class MainViewTest extends TestBenchTestCase{
 
 			@Override
 			public void add(Component... components) {
-				super.add(components[0]);
 				then(components).hasSize(2);
+				then(components).contains(tabs);
 				then(components).contains(globalDiv);
 			}
-			//			@Override
-//			public void add(Component... components) {
-//				;
-//				then(components).hasSize(2);
-//				then(components).contains(globalDiv);
-//			}
+
+			@Override
+			Tabs createTabSwitch(Tab forJava, Tab forWeb) {
+				then(forJava).isEqualTo(tabJavaComp);
+				then(forWeb).isEqualTo(tabWebComp);
+				return tabs;
+			}
+
+			@Override
+			Tab createTab(String label, String id) {
+				switch(label) {
+					case "Using Java":
+						then(id).isEqualTo("tab-for-java-comp");
+						return tabJavaComp;
+					case "Using Web Component":
+						then(id).isEqualTo("tab-for-web-comp");
+						return tabWebComp;
+					default:
+						fail("Not expected Tab label : "+label);
+				}
+					return super.createTab(label, id);
+			}
 		};
-		verify(webComp).setVisible(false);
 	}
 
 
-//
-//	@Test
-//	public void shouldInitializeTheGridWithCustomerRepositoryData() {
-//		int customerCount = (int) this.repository.count();
-//
-//		then(mainView.grid.getColumns()).hasSize(3);
-//		then(getCustomersInGrid()).hasSize(customerCount);
-//	}
-//
-//	private List<Customer> getCustomersInGrid() {
-//		ListDataProvider<Customer> ldp = (ListDataProvider) mainView.grid.getDataProvider();
-//		return new ArrayList<>(ldp.getItems());
-//	}
-//
-//	@Test
-//	public void shouldFillOutTheGridWithNewData() {
-//		int initialCustomerCount = (int) this.repository.count();
-//
-//		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
-//
-//		this.editor.save();
-//
-//		then(getCustomersInGrid()).hasSize(initialCustomerCount + 1);
-//
-//		then(getCustomersInGrid().get(getCustomersInGrid().size() - 1))
-//			.extracting("firstName", "lastName")
-//			.containsExactly("Marcin", "Grzejszczak");
-//
-//	}
-//
-//	@Test
-//	public void shouldFilterOutTheGridWithTheProvidedLastName() {
-//
-//		this.repository.save(new Customer("Josh", "Long"));
-//
-//		mainView.listCustomers("Long");
-//
-//		then(getCustomersInGrid()).hasSize(1);
-//		then(getCustomersInGrid().get(getCustomersInGrid().size() - 1))
-//			.extracting("firstName", "lastName")
-//			.containsExactly("Josh", "Long");
-//	}
-//
-//	@Test
-//	public void shouldInitializeWithInvisibleEditor() {
-//
-//		then(this.editor.isVisible()).isFalse();
-//	}
-//
-//	@Test
-//	public void shouldMakeEditorVisible() {
-//		Customer first = getCustomersInGrid().get(0);
-//		this.mainView.grid.select(first);
-//
-//		then(this.editor.isVisible()).isTrue();
-//	}
-//
-//	private void customerDataWasFilled(CustomerEditor editor, String firstName,
-//			String lastName) {
-//		this.editor.firstName.setValue(firstName);
-//		this.editor.lastName.setValue(lastName);
-//		editor.editCustomer(new Customer(firstName, lastName));
-//	}
 
-//	@Configuration
-//	@EnableAutoConfiguration(exclude = com.vaadin.flow.spring.SpringBootAutoConfiguration.class)
-//	static class Config {
-//
-//	}
 }

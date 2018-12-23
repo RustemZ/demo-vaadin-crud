@@ -1,6 +1,7 @@
 package hello;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -19,73 +20,59 @@ import java.util.Set;
 public class MainView extends VerticalLayout {
 
     private final CustomerRepository repo;
+    private final Tabs tabSwitch;
 
-//    private final CustomerEditor editor;
-//
-//    final Grid<Customer> grid;
-//
-//    final TextField filter;
-    final Tab tabForJava;
-    final Tab tabForWeb;
-
-    final Tabs tabSwitch;
-
-//    private final Button addNewBtn;
-
-    private void createTabs() {
-    }
 
     Div createGlobalDiv(TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
-        return new Div(tabJavaContent, tabWebCompContent);
+        Div globalDiv = new Div(tabJavaContent, tabWebCompContent);
+        return globalDiv;
+    }
+
+    Tabs createTabSwitch(Tab forJava, Tab forWeb) {
+        return new Tabs(forJava, forWeb);
+    }
+
+    Tab createTab(String label, String id) {
+        Tab tab = new Tab(label);
+        tab.setId("tab-for-java-comp");
+        return tab;
     }
 
     public MainView(CustomerRepository repo, TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
 
         this.repo = repo;
-//        this.editor = editor;
-//        this.grid = new Grid<>(Customer.class);
-//        this.filter = new TextField();
-//        this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
-//        // build layout
-//        HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-
-        this.tabForJava = new Tab("Using Java");
-        tabForJava.setId("tab-for-java-comp");
-        this.tabForWeb = new Tab("Using Web Component");
-        tabForWeb.setId("tab-for-web-comp");
-        this.tabSwitch = new Tabs(tabForJava, tabForWeb);
-        //Div divJava = new Div(actions, grid, editor);
-        //divJava.setText("For java ");
-
-//        Div div2 = new Div();
-//        div2.setText("For web component ");
-//        div2.setVisible(false);
+        Tab tabForJava = createTab("Using Java", "tab-for-java-comp");
+        Tab tabForWeb = createTab("Using Web Component", "tab-for-web-comp");
+        tabSwitch = createTabSwitch(tabForJava, tabForWeb);
         tabWebCompContent.setVisible(false);
         Div globalDiv = createGlobalDiv(tabJavaContent, tabWebCompContent);
         globalDiv.setWidth("700px");
         globalDiv.setHeight("500px");
 
-        add( tabSwitch, globalDiv);
+        add(tabSwitch, globalDiv);
         Map<Tab, Component> tabsToPages = new HashMap<>();
         tabsToPages.put(tabForJava, tabJavaContent);
-        tabsToPages.put(tabForWeb, tabWebCompContent );
+        tabsToPages.put(tabForWeb, tabWebCompContent);
 
         Set<Component> pagesShown = new HashSet<>();
         pagesShown.add(tabJavaContent);
-        tabSwitch.addSelectedChangeListener(event -> {
+        tabSwitch.addSelectedChangeListener(createSelectedChangeEventListener(tabsToPages, pagesShown));
+    }
+
+
+    private ComponentEventListener<Tabs.SelectedChangeEvent> createSelectedChangeEventListener(Map<Tab, Component> tabsToPages, Set<Component> pagesShown) {
+        return event -> {
             pagesShown.forEach(page -> page.setVisible(false));
             pagesShown.clear();
             Component selectedPage = tabsToPages.get(tabSwitch.getSelectedTab());
             selectedPage.setVisible(true);
             pagesShown.add(selectedPage);
-        });
+        };
     }
 
     public Tabs getTabSwitch() {
         return tabSwitch;
     }
-
-
 
 
 }

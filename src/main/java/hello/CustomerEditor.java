@@ -22,9 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @SpringComponent
 @UIScope
-public class CustomerEditor extends VerticalLayout implements KeyNotifier {
+public class CustomerEditor extends VerticalLayout implements KeyNotifier, UiListener {
 
 	private final CustomerRepository repository;
+	private final PubSubUiService thePubSubUiService;
 
 	/**
 	 * The currently edited customer
@@ -43,11 +44,12 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 	HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
 	Binder<Customer> binder = new Binder<>(Customer.class);
-	private ChangeHandler changeHandler;
+//	private ChangeHandler changeHandler;
 
 	@Autowired
-	public CustomerEditor(CustomerRepository repository) {
+	public CustomerEditor(CustomerRepository repository, PubSubUiService aPubSubUiService) {
 		this.repository = repository;
+		this.thePubSubUiService = aPubSubUiService;
 
 		add(firstName, lastName, actions);
 
@@ -66,42 +68,50 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
 		cancel.addClickListener(e -> editCustomer(customer));
+		aPubSubUiService.addListener(this);
+		setVisible(false);
+	}
+
+	@Override
+	public void update() {
 		setVisible(false);
 	}
 
 	void delete() {
 		repository.delete(customer);
-		changeHandler.onChange();
+		//changeHandler.onChange();
+		thePubSubUiService.updateAll();
 	}
 
 	void save() {
 		repository.save(customer);
-		changeHandler.onChange();
+		//changeHandler.onChange();
+		thePubSubUiService.updateAll();
 	}
 
-	public interface ChangeHandler {
-		void onChange();
-	}
+//	public interface ChangeHandler {
+//		void onChange();
+//	}
 
-	public final void editCustomer(Customer c) {
-		if (c == null) {
+	public final void editCustomer(Customer customer) {
+		if (customer == null) {
 			setVisible(false);
 			return;
 		}
-		final boolean persisted = c.getId() != null;
+		final boolean persisted = customer.getId() != null;
 		if (persisted) {
 			// Find fresh entity for editing
-			customer = repository.findById(c.getId()).get();
+			this.customer = repository.findById(customer.getId()).get();
 		}
 		else {
-			customer = c;
+			this.customer = customer;
 		}
 		cancel.setVisible(persisted);
 
 		// Bind customer properties to similarly named fields
 		// Could also use annotation or "manual binding" or programmatically
 		// moving values from fields to entities before saving
-		binder.setBean(customer);
+		binder.setBean(this.customer);
 
 		setVisible(true);
 
@@ -109,10 +119,10 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		firstName.focus();
 	}
 
-	public void setChangeHandler(ChangeHandler h) {
-		// ChangeHandler is notified when either save or delete
-		// is clicked
-		changeHandler = h;
-	}
+//	public void setChangeHandler(ChangeHandler h) {
+//		// ChangeHandler is notified when either save or delete
+//		// is clicked
+//		changeHandler = h;
+//	}
 
 }

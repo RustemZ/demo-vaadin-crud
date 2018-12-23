@@ -1,11 +1,15 @@
 package hello;
 
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,15 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = TabJavaContentTests.Config.class, properties = "spring.datasource.generate-unique-name=true")
+@SpringBootTest(classes = {TabJavaContentTests.Config.class}, properties = "spring.datasource.generate-unique-name=true")
 public class TabJavaContentTests  {
 
     @Autowired
     CustomerRepository repository;
 
-    VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
+	//@Autowired
+	PubSubUiService pubSubUiService = Mockito.mock(PubSubUiService.class); // new PubSubUiService() {
+//		@Override
+//		public synchronized void updateAll() {
+//			editor.update();
+//		}
+//	};
 
     CustomerEditor editor;
 
@@ -32,8 +44,8 @@ public class TabJavaContentTests  {
 
 	@Before
 	public void setup() {
-		this.editor = new CustomerEditor(this.repository);
-		this.tabJavaContent = new TabJavaContent(this.repository, editor);
+		this.editor = new CustomerEditor(this.repository, pubSubUiService);
+		this.tabJavaContent = new TabJavaContent(this.repository, editor, pubSubUiService);
 	}
 
 	@Test
@@ -52,10 +64,22 @@ public class TabJavaContentTests  {
 	@Test
 	public void shouldFillOutTheGridWithNewData() {
 		int initialCustomerCount = (int) this.repository.count();
+		doAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) {
+				tabJavaContent.update();
+				return null;
+			}
+		}).when(pubSubUiService).updateAll();
+//		when(pubSubUiService.updateAll()).thenAnswer(
+//				(InvocationOnMock invocation) -> {
+//					this.editor.update();
+//				});
 
 		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
 
 		this.editor.save();
+
 
 		then(getCustomersInGrid()).hasSize(initialCustomerCount + 1);
 

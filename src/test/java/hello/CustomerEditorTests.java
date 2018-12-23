@@ -21,12 +21,12 @@ public class CustomerEditorTests {
 
 	@Mock CustomerRepository customerRepository;
 	@InjectMocks CustomerEditor editor;
-	@Mock CustomerEditor.ChangeHandler changeHandler;
+	@Mock PubSubUiService changeHandler;
 
-	@Before
-	public void init() {
-		editor.setChangeHandler(changeHandler);
-	}
+//	@Before
+//	public void init() {
+//		editor.setChangeHandler(changeHandler);
+//	}
 
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {

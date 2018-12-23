@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 @SpringComponent
 @UIScope
-public class TabJavaContent extends Div {
+public class TabJavaContent extends Div implements UiListener{
 
     private final CustomerRepository repo;
     private final CustomerEditor editor;
@@ -21,8 +21,12 @@ public class TabJavaContent extends Div {
     private final TextField filter;
     private final Button addNewBtn;
 
+    @Override
+    public void update() {
+        listCustomers(filter.getValue());
+    }
 
-    public TabJavaContent(CustomerRepository repo, CustomerEditor editor) {
+    public TabJavaContent(CustomerRepository repo, CustomerEditor editor, PubSubUiService pubSubUiService) {
         this.repo = repo;
         this.editor = editor;
         this.grid = new Grid<>(Customer.class);
@@ -54,10 +58,11 @@ public class TabJavaContent extends Div {
         addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));
 
         // Listen changes made by the editor, refresh data from backend
-        editor.setChangeHandler(() -> {
-            editor.setVisible(false);
-            listCustomers(filter.getValue());
-        });
+//        editor.setChangeHandler(() -> {
+//            editor.setVisible(false);
+//            listCustomers(filter.getValue());
+//        });
+        pubSubUiService.addListener(this);
         listCustomers(null);
 
     }
