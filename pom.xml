@@ -58,13 +58,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-test-util</artifactId>
-            <version>1.2.3</version>
-        </dependency-->
-
-
         <dependency>
             <groupId>org.webjars.bowergithub.polymer</groupId>
             <artifactId>polymer</artifactId>
