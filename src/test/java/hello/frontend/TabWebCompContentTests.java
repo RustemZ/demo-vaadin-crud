@@ -1,25 +1,21 @@
 package hello.frontend;
 
 
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.dom.Element;
 import elemental.json.JsonArray;
-import elemental.json.JsonValue;
-import hello.backend.Customer;
+import hello.backend.ContactPerson;
 import hello.backend.CustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import com.vaadin.flow.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,7 +32,7 @@ public class TabWebCompContentTests {
 
     TabWebCompContent tabWebCompContent;
 
-    private void contactEquals(List<Customer> contacts, JsonArray array  ) {
+    private void contactEquals(List<ContactPerson> contacts, JsonArray array  ) {
         then(contacts.size()).isEqualTo(array.length());
         for(int i=0; i< contacts.size(); i++){
             String expected = contacts.get(i).toJsonObject().toJson();
@@ -47,13 +43,13 @@ public class TabWebCompContentTests {
 
     @Test
     public void creationOfTabWebComp(){
-        List<Customer> contacts = new ArrayList<>();
-        contacts.add( new Customer("name1", "family1" ) {
+        List<ContactPerson> contacts = new ArrayList<>();
+        contacts.add( new ContactPerson("name1", "family1" ) {
             public Long getId() {
                 return 1L;
             }
         } );
-        contacts.add( new Customer("name2", "family2" ){
+        contacts.add( new ContactPerson("name2", "family2" ){
             public Long getId() {
                 return 2L;
             }

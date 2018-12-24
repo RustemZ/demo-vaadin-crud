@@ -1,7 +1,7 @@
 package hello.frontend;
 
 import com.vaadin.flow.data.provider.ListDataProvider;
-import hello.backend.Customer;
+import hello.backend.ContactPerson;
 import hello.backend.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,8 +57,8 @@ public class TabJavaContentTests  {
 		then(getCustomersInGrid()).hasSize(customerCount);
 	}
 
-	private List<Customer> getCustomersInGrid() {
-		ListDataProvider<Customer> ldp = (ListDataProvider) tabJavaContent.getGrid().getDataProvider();
+	private List<ContactPerson> getCustomersInGrid() {
+		ListDataProvider<ContactPerson> ldp = (ListDataProvider) tabJavaContent.getGrid().getDataProvider();
 		return new ArrayList<>(ldp.getItems());
 	}
 
@@ -93,7 +93,7 @@ public class TabJavaContentTests  {
 	@Test
 	public void shouldFilterOutTheGridWithTheProvidedLastName() {
 
-		this.repository.save(new Customer("Josh", "Long"));
+		this.repository.save(new ContactPerson("Josh", "Long"));
 
 		tabJavaContent.listCustomers("Long");
 
@@ -111,7 +111,7 @@ public class TabJavaContentTests  {
 
 	@Test
 	public void shouldMakeEditorVisible() {
-		Customer first = getCustomersInGrid().get(0);
+		ContactPerson first = getCustomersInGrid().get(0);
 		this.tabJavaContent.getGrid().select(first);
 
 		then(this.editor.isVisible()).isTrue();
@@ -121,7 +121,7 @@ public class TabJavaContentTests  {
 			String lastName) {
 		this.editor.firstName.setValue(firstName);
 		this.editor.lastName.setValue(lastName);
-		editor.editCustomer(new Customer(firstName, lastName));
+		editor.editCustomer(new ContactPerson(firstName, lastName));
 	}
 
 

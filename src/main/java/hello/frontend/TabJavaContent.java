@@ -9,7 +9,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import hello.backend.Customer;
+import hello.backend.ContactPerson;
 import hello.backend.CustomerRepository;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +19,7 @@ public class TabJavaContent extends Div implements UiListener {
 
     private final CustomerRepository repo;
     private final CustomerEditor editor;
-    private final Grid<Customer> grid;
+    private final Grid<ContactPerson> grid;
     private final TextField filter;
     private final Button addNewBtn;
 
@@ -31,7 +31,7 @@ public class TabJavaContent extends Div implements UiListener {
     public TabJavaContent(CustomerRepository repo, CustomerEditor editor, PubSubUiService pubSubUiService) {
         this.repo = repo;
         this.editor = editor;
-        this.grid = new Grid<>(Customer.class);
+        this.grid = new Grid<>(ContactPerson.class);
         this.filter = new TextField();
         this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
         // build layout
@@ -45,25 +45,19 @@ public class TabJavaContent extends Div implements UiListener {
 
         filter.setPlaceholder("Filter by last name");
 
-        // Hook logic to components
-
         // Replace listing with filtered content when user changes filter
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> listCustomers(e.getValue()));
 
-        // Connect selected Customer to editor or hide if none is selected
+        // Connect selected ContactPerson to editor or hide if none is selected
         grid.asSingleSelect().addValueChangeListener(e -> {
             editor.editCustomer(e.getValue());
         });
 
-        // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));
+        // Instantiate and edit new ContactPerson the new button is clicked
+        addNewBtn.addClickListener(e -> editor.editCustomer(new ContactPerson("", "")));
 
         // Listen changes made by the editor, refresh data from backend
-//        editor.setChangeHandler(() -> {
-//            editor.setVisible(false);
-//            listCustomers(filter.getValue());
-//        });
         pubSubUiService.addListener(this);
         listCustomers(null);
 
@@ -77,7 +71,7 @@ public class TabJavaContent extends Div implements UiListener {
         }
     }
 
-    public Grid<Customer> getGrid() {
+    public Grid<ContactPerson> getGrid() {
         return grid;
     }
 }

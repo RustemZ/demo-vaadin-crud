@@ -11,8 +11,8 @@ import java.util.Set;
 public class PubSubUiService {
     private final Set<UiListener> uiListeners = new HashSet<>();
 
-    public synchronized void updateAll(){
-        for (UiListener listener: uiListeners) {
+    public synchronized void updateAll() {
+        for (UiListener listener : uiListeners) {
             listener.contactsUpdated();
         }
     }

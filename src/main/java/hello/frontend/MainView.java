@@ -9,7 +9,6 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.theme.lumo.Lumo;
-import hello.backend.CustomerRepository;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,7 +37,7 @@ public class MainView extends VerticalLayout {
         return tab;
     }
 
-    public MainView( TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
+    public MainView(TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
 
         Tab tabForJava = createTab("Using Java", "tab-for-java-comp");
         Tab tabForWeb = createTab("Using Web Component", "tab-for-web-comp");
@@ -68,6 +67,5 @@ public class MainView extends VerticalLayout {
             pagesShown.add(selectedPage);
         };
     }
-
 
 }

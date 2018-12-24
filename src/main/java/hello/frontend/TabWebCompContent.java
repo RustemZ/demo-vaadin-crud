@@ -9,7 +9,7 @@ import com.vaadin.flow.internal.JsonUtils;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import elemental.json.JsonArray;
-import hello.backend.Customer;
+import hello.backend.ContactPerson;
 import hello.backend.CustomerRepository;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class TabWebCompContent extends HtmlComponent implements UiListener {
     Element el;
     @Override
     public void contactsUpdated() {
-        List<Customer> allContacts = repo.findAll();
+        List<ContactPerson> allContacts = repo.findAll();
 
         JsonArray contacts = JsonUtils.createArray();
         for (int i = 0; i < allContacts.size(); i++) {

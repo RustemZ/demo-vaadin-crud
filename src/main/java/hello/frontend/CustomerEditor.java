@@ -10,7 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import hello.backend.Customer;
+import hello.backend.ContactPerson;
 import hello.backend.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,105 +26,93 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class CustomerEditor extends VerticalLayout implements KeyNotifier, UiListener {
 
-	private final CustomerRepository repository;
-	private final PubSubUiService thePubSubUiService;
+    private final CustomerRepository repository;
+    private final PubSubUiService thePubSubUiService;
 
-	/**
-	 * The currently edited customer
-	 */
-	private Customer customer;
+    /**
+     * The currently edited contactPerson
+     */
+    private ContactPerson contactPerson;
 
-	/* Fields to edit properties in Customer entity */
-	TextField firstName = new TextField("First name");
-	TextField lastName = new TextField("Last name");
+    /* Fields to edit properties in ContactPerson entity */
+    TextField firstName = new TextField("First name");
+    TextField lastName = new TextField("Last name");
 
-	/* Action buttons */
-	// TODO why more code?
-	Button save = new Button("Save", VaadinIcon.CHECK.create());
-	Button cancel = new Button("Cancel");
-	Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-	HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    /* Action buttons */
+    Button save = new Button("Save", VaadinIcon.CHECK.create());
+    Button cancel = new Button("Cancel");
+    Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
-	Binder<Customer> binder = new Binder<>(Customer.class);
-//	private ChangeHandler changeHandler;
+    Binder<ContactPerson> binder = new Binder<>(ContactPerson.class);
 
-	@Autowired
-	public CustomerEditor(CustomerRepository repository, PubSubUiService aPubSubUiService) {
-		this.repository = repository;
-		this.thePubSubUiService = aPubSubUiService;
+    @Autowired
+    public CustomerEditor(CustomerRepository repository, PubSubUiService aPubSubUiService) {
+        this.repository = repository;
+        this.thePubSubUiService = aPubSubUiService;
 
-		add(firstName, lastName, actions);
+        add(firstName, lastName, actions);
 
-		// bind using naming convention
-		binder.bindInstanceFields(this);
+        // bind using naming convention
+        binder.bindInstanceFields(this);
 
-		// Configure and style components
-		setSpacing(true);
+        // Configure and style components
+        setSpacing(true);
 
-		save.getElement().getThemeList().add("primary");
-		delete.getElement().getThemeList().add("error");
+        save.getElement().getThemeList().add("primary");
+        delete.getElement().getThemeList().add("error");
 
-		addKeyPressListener(Key.ENTER, e -> save());
+        addKeyPressListener(Key.ENTER, e -> save());
 
-		// wire action buttons to save, delete and reset
-		save.addClickListener(e -> save());
-		delete.addClickListener(e -> delete());
-		cancel.addClickListener(e -> editCustomer(customer));
-		aPubSubUiService.addListener(this);
-		setVisible(false);
-	}
+        // wire action buttons to save, delete and reset
+        save.addClickListener(e -> save());
+        delete.addClickListener(e -> delete());
+        cancel.addClickListener(e -> editCustomer(contactPerson));
+        aPubSubUiService.addListener(this);
+        setVisible(false);
+    }
 
-	@Override
-	public void contactsUpdated() {
-		setVisible(false);
-	}
+    @Override
+    public void contactsUpdated() {
+        setVisible(false);
+    }
 
-	void delete() {
-		repository.delete(customer);
-		//changeHandler.onChange();
-		thePubSubUiService.updateAll();
-	}
+    void delete() {
+        repository.delete(contactPerson);
+        //changeHandler.onChange();
+        thePubSubUiService.updateAll();
+    }
 
-	void save() {
-		repository.save(customer);
-		//changeHandler.onChange();
-		thePubSubUiService.updateAll();
-	}
+    void save() {
+        repository.save(contactPerson);
+        //changeHandler.onChange();
+        thePubSubUiService.updateAll();
+    }
 
-//	public interface ChangeHandler {
-//		void onChange();
-//	}
 
-	public final void editCustomer(Customer customer) {
-		if (customer == null) {
-			setVisible(false);
-			return;
-		}
-		final boolean persisted = customer.getId() != null;
-		if (persisted) {
-			// Find fresh entity for editing
-			this.customer = repository.findById(customer.getId()).get();
-		}
-		else {
-			this.customer = customer;
-		}
-		cancel.setVisible(persisted);
+    public final void editCustomer(ContactPerson contactPerson) {
+        if (contactPerson == null) {
+            setVisible(false);
+            return;
+        }
+        final boolean persisted = contactPerson.getId() != null;
+        if (persisted) {
+            // Find fresh entity for editing
+            this.contactPerson = repository.findById(contactPerson.getId()).get();
+        } else {
+            this.contactPerson = contactPerson;
+        }
+        cancel.setVisible(persisted);
 
-		// Bind customer properties to similarly named fields
-		// Could also use annotation or "manual binding" or programmatically
-		// moving values from fields to entities before saving
-		binder.setBean(this.customer);
+        // Bind contactPerson properties to similarly named fields
+        // Could also use annotation or "manual binding" or programmatically
+        // moving values from fields to entities before saving
+        binder.setBean(this.contactPerson);
 
-		setVisible(true);
+        setVisible(true);
 
-		// Focus first name initially
-		firstName.focus();
-	}
-
-//	public void setChangeHandler(ChangeHandler h) {
-//		// ChangeHandler is notified when either save or delete
-//		// is clicked
-//		changeHandler = h;
-//	}
+        // Focus first name initially
+        firstName.focus();
+    }
 
 }
