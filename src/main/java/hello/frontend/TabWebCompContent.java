@@ -21,7 +21,7 @@ import java.util.List;
 @StyleSheet("frontend://css/web-comp.css")
 public class TabWebCompContent extends HtmlComponent implements UiListener {
 
-    final CustomerRepository repo;
+    private final CustomerRepository repo;
 
     public TabWebCompContent(CustomerRepository repo, PubSubUiService pubSubUiService) {
         this.repo= repo;
@@ -29,7 +29,6 @@ public class TabWebCompContent extends HtmlComponent implements UiListener {
         pubSubUiService.addListener(this);
     }
 
-    Element el;
     @Override
     public void contactsUpdated() {
         List<ContactPerson> allContacts = repo.findAll();
@@ -38,7 +37,7 @@ public class TabWebCompContent extends HtmlComponent implements UiListener {
         for (int i = 0; i < allContacts.size(); i++) {
             contacts.set(i, allContacts.get(i).toJsonObject());
         }
-        el = getElement().setPropertyJson("contacts", contacts);
+        getElement().setPropertyJson("contacts", contacts);
     }
 
 

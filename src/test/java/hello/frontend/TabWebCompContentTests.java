@@ -30,7 +30,7 @@ public class TabWebCompContentTests {
     @Mock
     Element internalWebComp;
 
-    TabWebCompContent tabWebCompContent;
+    private TabWebCompContent tabWebCompContent;
 
     private void contactEquals(List<ContactPerson> contacts, JsonArray array  ) {
         then(contacts.size()).isEqualTo(array.length());

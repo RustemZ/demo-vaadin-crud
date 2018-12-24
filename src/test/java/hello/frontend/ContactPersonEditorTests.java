@@ -20,22 +20,22 @@ public class ContactPersonEditorTests {
 
 	@Mock
     CustomerRepository customerRepository;
-	@InjectMocks
-    CustomerEditor editor;
 	@Mock
     PubSubUiService changeHandler;
+	@InjectMocks
+	CustomerEditor editor;
 
 
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
 		emptyCustomerWasSetToForm();
 
-		this.editor.firstName.setValue(FIRST_NAME);
-		this.editor.lastName.setValue(LAST_NAME);
+		editor.firstName.setValue(FIRST_NAME);
+		editor.lastName.setValue(LAST_NAME);
 
-		this.editor.save();
+		editor.save();
 
-		then(this.customerRepository).should().save(argThat(customerMatchesEditorFields()));
+		then(customerRepository).should().save(argThat(customerMatchesEditorFields()));
 	}
 
 	@Test
@@ -44,14 +44,14 @@ public class ContactPersonEditorTests {
 
 		editor.delete();
 
-		then(this.customerRepository).should().delete(argThat(customerMatchesEditorFields()));
+		then(customerRepository).should().delete(argThat(customerMatchesEditorFields()));
 	}
 
 	private void emptyCustomerWasSetToForm() {
-		this.editor.editCustomer(new ContactPerson());
+		editor.editCustomer(new ContactPerson());
 	}
 	private void customerDataWasFilled() {
-		this.editor.editCustomer(new ContactPerson(FIRST_NAME, LAST_NAME));
+		editor.editCustomer(new ContactPerson(FIRST_NAME, LAST_NAME));
 	}
 
 	private ArgumentMatcher<ContactPerson> customerMatchesEditorFields() {

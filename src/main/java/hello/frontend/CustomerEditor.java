@@ -35,21 +35,21 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier, UiLis
     private ContactPerson contactPerson;
 
     /* Fields to edit properties in ContactPerson entity */
-    TextField firstName = new TextField("First name");
-    TextField lastName = new TextField("Last name");
+    final TextField firstName = new TextField("First name");
+    final TextField lastName = new TextField("Last name");
 
     /* Action buttons */
-    Button save = new Button("Save", VaadinIcon.CHECK.create());
-    Button cancel = new Button("Cancel");
-    Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    private final Button save = new Button("Save", VaadinIcon.CHECK.create());
+    private final Button cancel = new Button("Cancel");
+    private final Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    private final HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
-    Binder<ContactPerson> binder = new Binder<>(ContactPerson.class);
+    private final Binder<ContactPerson> binder = new Binder<>(ContactPerson.class);
 
     @Autowired
     public CustomerEditor(CustomerRepository repository, PubSubUiService aPubSubUiService) {
         this.repository = repository;
-        this.thePubSubUiService = aPubSubUiService;
+        thePubSubUiService = aPubSubUiService;
 
         add(firstName, lastName, actions);
 

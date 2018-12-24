@@ -18,11 +18,11 @@ public class ApplicationTests {
 
 	@Test
 	public void shouldFillOutComponentsWithDataWhenTheApplicationIsStarted() {
-		then(this.repository.count()).isEqualTo(5);
+		then(repository.count()).isEqualTo(5);
 	}
 
 	@Test
 	public void shouldFindTwoBauerCustomers() {
-		then(this.repository.findByLastNameStartsWithIgnoreCase("Bauer")).hasSize(2);
+		then(repository.findByLastNameStartsWithIgnoreCase("Bauer")).hasSize(2);
 	}
 }

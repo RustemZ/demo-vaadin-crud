@@ -11,7 +11,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class PubSubUiServiceTests {
 
-    PubSubUiService thePubSubUiService;
+    private PubSubUiService thePubSubUiService;
 
     @Mock
     UiListener listener1;
@@ -33,8 +33,7 @@ public class PubSubUiServiceTests {
 
         verify(listener1, times(3)).contactsUpdated();
         verify(listener2, times(3)).contactsUpdated();
-
-    };
+    }
 
 
 }

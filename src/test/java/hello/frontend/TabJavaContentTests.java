@@ -31,27 +31,21 @@ public class TabJavaContentTests  {
     @Autowired
 	CustomerRepository repository;
 
-	//@Autowired
-	PubSubUiService pubSubUiService = Mockito.mock(PubSubUiService.class); // new PubSubUiService() {
-//		@Override
-//		public synchronized void updateAll() {
-//			editor.contactsUpdated();
-//		}
-//	};
+	private final PubSubUiService pubSubUiService = Mockito.mock(PubSubUiService.class);
 
-    CustomerEditor editor;
+    private CustomerEditor editor;
 
-    TabJavaContent tabJavaContent;
+    private TabJavaContent tabJavaContent;
 
 	@Before
 	public void setup() {
-		this.editor = new CustomerEditor(this.repository, pubSubUiService);
-		this.tabJavaContent = new TabJavaContent(this.repository, editor, pubSubUiService);
+		editor = new CustomerEditor(repository, pubSubUiService);
+		tabJavaContent = new TabJavaContent(repository, editor, pubSubUiService);
 	}
 
 	@Test
 	public void shouldInitializeTheGridWithCustomerRepositoryData() {
-		int customerCount = (int) this.repository.count();
+		int customerCount = (int) repository.count();
 
 		then(tabJavaContent.getGrid().getColumns()).hasSize(3);
 		then(getCustomersInGrid()).hasSize(customerCount);
@@ -64,7 +58,7 @@ public class TabJavaContentTests  {
 
 	@Test
 	public void shouldFillOutTheGridWithNewData() {
-		int initialCustomerCount = (int) this.repository.count();
+		int initialCustomerCount = (int) repository.count();
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) {
@@ -72,14 +66,10 @@ public class TabJavaContentTests  {
 				return null;
 			}
 		}).when(pubSubUiService).updateAll();
-//		when(pubSubUiService.updateAll()).thenAnswer(
-//				(InvocationOnMock invocation) -> {
-//					this.editor.contactsUpdated();
-//				});
 
 		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
 
-		this.editor.save();
+		editor.save();
 
 
 		then(getCustomersInGrid()).hasSize(initialCustomerCount + 1);
@@ -93,7 +83,7 @@ public class TabJavaContentTests  {
 	@Test
 	public void shouldFilterOutTheGridWithTheProvidedLastName() {
 
-		this.repository.save(new ContactPerson("Josh", "Long"));
+		repository.save(new ContactPerson("Josh", "Long"));
 
 		tabJavaContent.listCustomers("Long");
 
@@ -106,15 +96,15 @@ public class TabJavaContentTests  {
 	@Test
 	public void shouldInitializeWithInvisibleEditor() {
 
-		then(this.editor.isVisible()).isFalse();
+		then(editor.isVisible()).isFalse();
 	}
 
 	@Test
 	public void shouldMakeEditorVisible() {
 		ContactPerson first = getCustomersInGrid().get(0);
-		this.tabJavaContent.getGrid().select(first);
+		tabJavaContent.getGrid().select(first);
 
-		then(this.editor.isVisible()).isTrue();
+		then(editor.isVisible()).isTrue();
 	}
 
 	private void customerDataWasFilled(CustomerEditor editor, String firstName,

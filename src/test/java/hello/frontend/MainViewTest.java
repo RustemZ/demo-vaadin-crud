@@ -5,10 +5,6 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.testbench.TestBenchTestCase;
-import hello.frontend.MainView;
-import hello.frontend.TabJavaContent;
-import hello.frontend.TabWebCompContent;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -21,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MainViewTest extends TestBenchTestCase {
+public class MainViewTest {
 
     @Mock
     Tabs tabs;
@@ -36,8 +32,6 @@ public class MainViewTest extends TestBenchTestCase {
     @Mock
     Div globalDiv;
 
-    MainView mainView;
-
 
     @Test
     public void testOfCreationMainView() {
@@ -47,7 +41,7 @@ public class MainViewTest extends TestBenchTestCase {
                     listener[0] = (ComponentEventListener) (invocation.getArguments()[0]);
                     return null;
                 });
-        this.mainView = createMainView();
+        MainView mainView = createMainView();
 
         when(tabs.getSelectedTab()).thenReturn(tabWebComp);
         listener[0].onComponentEvent(null);

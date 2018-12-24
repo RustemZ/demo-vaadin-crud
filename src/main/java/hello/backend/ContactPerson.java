@@ -56,7 +56,7 @@ public class ContactPerson {
         jsonContact.put("id", getId());
         jsonContact.put("firstName", getFirstName());
         jsonContact.put("lastName", getLastName());
-// TODO: add new fileds
+// TODO: add new fields
 //		jsonContact.put("phoneNumber", phoneNumber);
 //		jsonContact.put("email", email);
         return jsonContact;

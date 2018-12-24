@@ -31,9 +31,9 @@ public class TabJavaContent extends Div implements UiListener {
     public TabJavaContent(CustomerRepository repo, CustomerEditor editor, PubSubUiService pubSubUiService) {
         this.repo = repo;
         this.editor = editor;
-        this.grid = new Grid<>(ContactPerson.class);
-        this.filter = new TextField();
-        this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
+        grid = new Grid<>(ContactPerson.class);
+        filter = new TextField();
+        addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
         // build layout
         HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
 
