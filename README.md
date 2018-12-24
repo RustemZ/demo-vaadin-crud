@@ -1,4 +1,6 @@
-# My weekend trial of learning Vaadin: demo-vaadin-crud
+#My weekend trial of learning Vaadin 
+demo-vaadin-crud
+
 
 ##Introduction
 
