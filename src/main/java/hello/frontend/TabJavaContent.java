@@ -24,7 +24,7 @@ public class TabJavaContent extends Div implements UiListener {
     private final Button addNewBtn;
 
     @Override
-    public void update() {
+    public void contactsUpdated() {
         listCustomers(filter.getValue());
     }
 

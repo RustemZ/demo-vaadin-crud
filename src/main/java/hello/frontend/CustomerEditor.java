@@ -75,7 +75,7 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier, UiLis
 	}
 
 	@Override
-	public void update() {
+	public void contactsUpdated() {
 		setVisible(false);
 	}
 

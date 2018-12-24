@@ -16,26 +16,6 @@
     <script>
     class ContactsTable extends Polymer.Element {
         static get is() { return 'contacts-table'; }
-            _afterChange(change, source) {
-                console.log(change);
-                console.log(source);
-            }
-        _itemClicked(event) {
-            const tr = event.currentTarget;
-            const previouslySelected = document.getElementsByClassName('selected-row');
-            let unselect = false;
-            if (previouslySelected != undefined && previouslySelected.length == 1) {
-                unselect = (previouslySelected[0].id == tr.id);
-                previouslySelected[0].className = '';
-            }
-
-            let selectedId = null;
-            if (!unselect) {
-                tr.className = 'selected-row';
-                selectedId = tr.id;
-            }
-            this.dispatchEvent(new CustomEvent('row-selection-updated', {detail: selectedId}));
-        }
     }
 
     customElements.define(ContactsTable.is, ContactsTable);

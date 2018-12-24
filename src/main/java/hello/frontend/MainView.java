@@ -20,7 +20,6 @@ import java.util.Set;
 @Theme(value = Lumo.class)
 public class MainView extends VerticalLayout {
 
-    private final CustomerRepository repo;
     private final Tabs tabSwitch;
 
 
@@ -35,13 +34,12 @@ public class MainView extends VerticalLayout {
 
     Tab createTab(String label, String id) {
         Tab tab = new Tab(label);
-        tab.setId("tab-for-java-comp");
+        tab.setId(id);
         return tab;
     }
 
-    public MainView(CustomerRepository repo, TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
+    public MainView( TabJavaContent tabJavaContent, TabWebCompContent tabWebCompContent) {
 
-        this.repo = repo;
         Tab tabForJava = createTab("Using Java", "tab-for-java-comp");
         Tab tabForWeb = createTab("Using Web Component", "tab-for-web-comp");
         tabSwitch = createTabSwitch(tabForJava, tabForWeb);
@@ -69,10 +67,6 @@ public class MainView extends VerticalLayout {
             selectedPage.setVisible(true);
             pagesShown.add(selectedPage);
         };
-    }
-
-    public Tabs getTabSwitch() {
-        return tabSwitch;
     }
 
 

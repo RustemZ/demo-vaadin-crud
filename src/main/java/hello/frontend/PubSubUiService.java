@@ -13,7 +13,7 @@ public class PubSubUiService {
 
     public synchronized void updateAll(){
         for (UiListener listener: uiListeners) {
-            listener.update();
+            listener.contactsUpdated();
         }
     }
 

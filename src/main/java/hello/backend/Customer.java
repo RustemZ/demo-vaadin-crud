@@ -55,9 +55,9 @@ public class Customer {
 
 	public JsonObject toJsonObject() {
 		JsonObject jsonContact = Json.createObject();
-		jsonContact.put("id", id);
-		jsonContact.put("firstName", firstName);
-		jsonContact.put("lastName", lastName);
+		jsonContact.put("id", getId());
+		jsonContact.put("firstName", getFirstName());
+		jsonContact.put("lastName", getLastName());
 //		jsonContact.put("phoneNumber", phoneNumber);
 //		jsonContact.put("email", email);
 		return jsonContact;

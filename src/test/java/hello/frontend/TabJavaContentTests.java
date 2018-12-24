@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,7 +35,7 @@ public class TabJavaContentTests  {
 	PubSubUiService pubSubUiService = Mockito.mock(PubSubUiService.class); // new PubSubUiService() {
 //		@Override
 //		public synchronized void updateAll() {
-//			editor.update();
+//			editor.contactsUpdated();
 //		}
 //	};
 
@@ -69,13 +68,13 @@ public class TabJavaContentTests  {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) {
-				tabJavaContent.update();
+				tabJavaContent.contactsUpdated();
 				return null;
 			}
 		}).when(pubSubUiService).updateAll();
 //		when(pubSubUiService.updateAll()).thenAnswer(
 //				(InvocationOnMock invocation) -> {
-//					this.editor.update();
+//					this.editor.contactsUpdated();
 //				});
 
 		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
