@@ -4,22 +4,22 @@ demo-vaadin-crud
 
 ## Introduction
 
-I had a small task to write “Hello word”-like application using Vaadin framework during a weekend. Before that weekend I knew very a little about Vaadin framework. I knew that Vaadin uses GTW components but basically that was all about my knowledge about Vaadin. 
-So let’s look on pros and cons what I found about Vaadin.
+I had a small task to write “Hello World”-like application using Vaadin framework during a weekend. Before that weekend I knew very a little about Vaadin framework. I knew that Vaadin uses GTW components but basically that was all about my knowledge about Vaadin. 
+So let’s look on pros and cons what I found about Vaadin during one weekend.
 
 ## List of Pros that I found interesting. 
-1) First thing that I discover that Vaadin can work now with Web components. So now Vaadin had are more possibilities to extend.
-2) Vaadin have a good lib “TestBench” for integration test. As I read It can really save your time on testing web application.  
+1) First thing that I discover that Vaadin can work now with Web components. So now Vaadin has are more possibilities to extend.
+2) Vaadin have a good lib [“TestBench”](https://vaadin.com/directory/component/vaadin-testbench) for integration test. As fas as I understand It can really save your time on testing web application.  
 3) Asynchronous Updates from server using @Push annotation.
-4) Last but not least is this. I am quite sure that for Java developers can more easy to create and maintain a web front-end on Java that on JavaScript. It sound obvious but I want to emphasize this.
+4) Last but not least is this. I am quite sure that Java developers can more easy create and maintain a web front-end on Java that on JavaScript. It sound obvious but I want to emphasize this.
 
 ## What I accomplished during that weekend.
 At first I selected Vaadin 10 as most stable and functional release.
 Initially I had a choose how to create my project. 
 1) First option was a creation of project from the scratch using [Spring Initializr](https://start.spring.io/) or [Vaadin Strater](https://vaadin.com/start). After this I could copy and paste interesting code samples from other Vaadin projects or articles to my project.
-2) Second option was made a fork from existing Vaadin project then understand how it works and add some new functionality to this project. I chooses second option. 
+2) Second option was made a fork from existing Vaadin project then understand how it works and add some new functionality to this project.
 
-I made a fork from [project demo-vaadin-crud](https://github.com/snicoll-demos/demo-vaadin-crud). Besides this project I recommend to [watch a presentation](https://www.youtube.com/watch?v=-BlJQqT8Kpg)  about this project and beyond it.  After watching of the presentation and some investigation of code everything inside project was a quite understandable for me. 
+I chooses second option. I made a fork from [project demo-vaadin-crud](https://github.com/snicoll-demos/demo-vaadin-crud). Besides this project I recommend to [watch a presentation](https://www.youtube.com/watch?v=-BlJQqT8Kpg)  about this project and beyond it.  After watching of the presentation and some investigation of code everything inside project was a quite understandable for me. 
 I added a component Tabs with two Tab: first tab with Vaadin java components and  second with Web component. As Web component I selected spreadsheet [Hot-Table](http://handsontable.github.io/hot-table/)
  because [Hot-Table](http://handsontable.github.io/hot-table/) has many functions and I was curios about using some of them. But on that weekend I manage only to show modification of data in [Hot-Table](http://handsontable.github.io/hot-table/). I also made small refactoring and divided classes on packages and it required small configuration of Spring. And of course I didn’t forget to write unit tests for my code.
 
