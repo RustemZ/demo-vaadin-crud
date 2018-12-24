@@ -8,8 +8,8 @@
     <template>
         <hot-table width="500" height="300" context-menu datarows="[[contacts]]" afterUpdate="_afterChange"  >
             <hot-column width="30" read-only value="id" header="ID"></hot-column>
-            <hot-column width="200" value="firstName" header="First Name"></hot-column>
-            <hot-column width="200" value="lastName" header="Last Name"></hot-column>
+            <hot-column width="200" read-only value="firstName" header="First Name"></hot-column>
+            <hot-column width="200" read-only value="lastName" header="Last Name"></hot-column>
 
         </hot-table>
     </template>

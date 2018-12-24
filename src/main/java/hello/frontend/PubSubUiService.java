@@ -1,4 +1,4 @@
-package hello;
+package hello.frontend;
 
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;

@@ -1,4 +1,4 @@
-package hello;
+package hello.frontend;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -9,6 +9,7 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.theme.lumo.Lumo;
+import hello.backend.CustomerRepository;
 
 import java.util.HashMap;
 import java.util.HashSet;

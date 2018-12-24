@@ -1,9 +1,8 @@
-package hello;
+package hello.frontend;
 
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.server.VaadinRequest;
-import com.vaadin.flow.spring.annotation.UIScope;
+import hello.backend.Customer;
+import hello.backend.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +11,11 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -21,14 +23,14 @@ import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.*;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TabJavaContentTests.Config.class}, properties = "spring.datasource.generate-unique-name=true")
+@SpringBootTest(classes = {TabJavaContentTests.Config.class},
+		properties = "spring.datasource.generate-unique-name=true")
 public class TabJavaContentTests  {
 
     @Autowired
-    CustomerRepository repository;
+	CustomerRepository repository;
 
 	//@Autowired
 	PubSubUiService pubSubUiService = Mockito.mock(PubSubUiService.class); // new PubSubUiService() {
@@ -126,6 +128,8 @@ public class TabJavaContentTests  {
 
     @Configuration
     @EnableAutoConfiguration(exclude = com.vaadin.flow.spring.SpringBootAutoConfiguration.class)
+	@EnableJpaRepositories("hello.backend")
+	@EntityScan("hello.backend")
     static class Config {
 
     }

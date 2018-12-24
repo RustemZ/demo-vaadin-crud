@@ -1,9 +1,12 @@
-package hello;
+package hello.frontend;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
 
-import org.junit.Before;
+import hello.backend.Customer;
+import hello.backend.CustomerRepository;
+import hello.frontend.CustomerEditor;
+import hello.frontend.PubSubUiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
@@ -11,22 +14,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.annotation.PostConstruct;
-
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerEditorTests {
 
 	private static final String FIRST_NAME = "Marcin";
 	private static final String LAST_NAME = "Grzejszczak";
 
-	@Mock CustomerRepository customerRepository;
-	@InjectMocks CustomerEditor editor;
-	@Mock PubSubUiService changeHandler;
+	@Mock
+    CustomerRepository customerRepository;
+	@InjectMocks
+    CustomerEditor editor;
+	@Mock
+    PubSubUiService changeHandler;
 
-//	@Before
-//	public void init() {
-//		editor.setChangeHandler(changeHandler);
-//	}
 
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {

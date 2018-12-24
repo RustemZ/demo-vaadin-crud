@@ -1,4 +1,4 @@
-package hello;
+package hello.frontend;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -9,11 +9,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import hello.backend.Customer;
+import hello.backend.CustomerRepository;
 import org.springframework.util.StringUtils;
 
 @SpringComponent
 @UIScope
-public class TabJavaContent extends Div implements UiListener{
+public class TabJavaContent extends Div implements UiListener {
 
     private final CustomerRepository repo;
     private final CustomerEditor editor;

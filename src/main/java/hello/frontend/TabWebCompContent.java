@@ -1,4 +1,4 @@
-package hello;
+package hello.frontend;
 
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Tag;
@@ -11,6 +11,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
 import elemental.json.JsonValue;
+import hello.backend.Customer;
+import hello.backend.CustomerRepository;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @Tag("contacts-table")
 @HtmlImport("frontend://components/ContactsTable.html")
 @StyleSheet("frontend://css/web-comp.css")
-public class TabWebCompContent extends HtmlComponent implements UiListener{
+public class TabWebCompContent extends HtmlComponent implements UiListener {
 
     final CustomerRepository repo;
 

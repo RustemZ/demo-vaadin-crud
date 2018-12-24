@@ -1,4 +1,4 @@
-package hello;
+package hello.frontend;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -6,6 +6,9 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.testbench.TestBenchTestCase;
+import hello.frontend.MainView;
+import hello.frontend.TabJavaContent;
+import hello.frontend.TabWebCompContent;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -27,9 +30,9 @@ public class MainViewTest extends TestBenchTestCase{
 	@Mock
 	Tab tabWebComp;
  	@Mock
-	TabJavaContent contentJavaComp;
+    TabJavaContent contentJavaComp;
 	@Mock
-	TabWebCompContent contentWebComp;
+    TabWebCompContent contentWebComp;
 	@Mock
 	Div globalDiv;
 

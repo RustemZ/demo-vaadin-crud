@@ -1,4 +1,4 @@
-package hello;
+package hello.backend;
 
 import elemental.json.Json;
 import elemental.json.JsonObject;
@@ -12,13 +12,14 @@ import javax.persistence.Id;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String firstName;
 
 	private String lastName;
 
-	protected Customer() {
+	public Customer() {
 	}
 
 	public Customer(String firstName, String lastName) {
