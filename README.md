@@ -27,6 +27,7 @@ I added a component Tabs with two Tab: first tab with Vaadin java components and
 
 I think that in general you can not work productively with Vaadin without paid license. 
 For example TestBench required it for work.
+
 It is true that Web Component community is larger than GWT  community. But It is not mainstream of front-end development.  In general JavaSript pure libraries is more popular.  For example if compare Hot-Table web component with his parent project Handsontable then you will see that  JavaScript library Handsontable is more powerful than web component. By the way nowdays Javascript family has many powerful features especially when you look on ES6 and TypeScript.  
 
 
@@ -38,8 +39,10 @@ May be because  Vaadin has more documentation than  [Web components](https://www
 For example I wanted to use theme LUMO.DARK. But [Hot-Table](http://handsontable.github.io/hot-table/) looks ugly with this theme. When I tried to change styles I discovered that it is not so simple with web components. 
 First advice for changing styles was to made fork from [Hot-Table](http://handsontable.github.io/hot-table/) and make changes of style inside this new fork. 
 Second workaround for changing styles was changing styles on Shadow DOM  of [Hot-Table](http://handsontable.github.io/hot-table/).
-But this advice is more appropriate for JavaScript than for Vaadin.   
-I planed to made CRUD operations for [Hot-Table](http://handsontable.github.io/hot-table/). But I did not found how to attach a event listener on Hot-table events. At least their site is silent on it. So during my time limit I could not found solution for this problem.
+But this advice is more appropriate for JavaScript than for Vaadin.
+   
+I planed to made CRUD operations for [Hot-Table](http://handsontable.github.io/hot-table/).But I did not found how to attach a event listener on Hot-table events. At least their site is silent on it. So during my time limit I could not found solution for this problem.
+
 But what make me really unsatisfied is integration tests. I planed to use TestBench. But I simply could not run my integration test with my configuration of Spring Boot and Vaadin. By documentation everything is easy. And it should be easy. But it was not. I get this exception during running of integration test.
 ```org.apache.maven.plugin.MojoExecutionException: Spring application did not start before the configured timeout (30000ms'```
 Inside source code of ```org.springframework.boot.maven.StartMojo.waitForSpringApplication``` 
