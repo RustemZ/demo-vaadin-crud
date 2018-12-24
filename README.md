@@ -1,19 +1,19 @@
-#My weekend trial of learning Vaadin 
+# My weekend trial of learning Vaadin 
 demo-vaadin-crud
 
 
-##Introduction
+## Introduction
 
 I had a small task to write “Hello word”-like application using Vaadin framework during a weekend. Before that weekend I knew very a little about Vaadin framework. I knew that Vaadin uses GTW components but basically that was all about my knowledge about Vaadin. 
 So let’s look on pros and cons what I found about Vaadin.
 
-##List of Pros that I found interesting. 
+## List of Pros that I found interesting. 
 1) First thing that I discover that Vaadin can work now with Web components. So now Vaadin had are more possibilities to extend.
 2) Vaadin have a good lib “TestBench” for integration test. As I read It can really save your time on testing web application.  
 3) Asynchronous Updates from server using @Push annotation.
 4) Last but not least is this. I am quite sure that for Java developers can more easy to create and maintain a web front-end on Java that on JavaScript. It sound obvious but I want to emphasize this.
 
-##What I accomplished during that weekend.
+## What I accomplished during that weekend.
 At first I selected Vaadin 10 as most stable and functional release.
 Initially I had a choose how to create my project. 
 1) First option was a creation of project from the scratch using [Spring Initializr](https://start.spring.io/) or [Vaadin Strater](https://vaadin.com/start). After this I could copy and paste interesting code samples from other Vaadin projects or articles to my project.
@@ -23,14 +23,14 @@ I made a fork from [project demo-vaadin-crud](https://github.com/snicoll-demos/d
 I added a component Tabs with two Tab: first tab with Vaadin java components and  second with Web component. As Web component I selected spreadsheet [Hot-Table](http://handsontable.github.io/hot-table/)
  because [Hot-Table](http://handsontable.github.io/hot-table/) has many functions and I was curios about using some of them. But on that weekend I manage only to show modification of data in [Hot-Table](http://handsontable.github.io/hot-table/). I also made small refactoring and divided classes on packages and it required small configuration of Spring. And of course I didn’t forget to write unit tests for my code.
 
-##In my humble opinion list of Cons of Vaadin. 
+## In my humble opinion list of Cons of Vaadin. 
 
 I think that in general you can not work productively with Vaadin without paid license. 
 For example TestBench required it for work.
 It is true that Web Component community is larger than GWT  community. But It is not mainstream of front-end development.  In general JavaSript pure libraries is more popular.  For example if compare Hot-Table web component with his parent project Handsontable then you will see that  JavaScript library Handsontable is more powerful than web component. By the way nowdays Javascript family has many powerful features especially when you look on ES6 and TypeScript.  
 
 
-##What I could not do during that weekend.
+## What I could not do during that weekend.
 Besides Vaadin I also didn’t have experience of work with [Web components](https://www.webcomponents.org/). 
 So as results I had to spent some time on investigation of [Web components](https://www.webcomponents.org/). 
 By the way that research of Vaadin was more easy for me than [Web components](https://www.webcomponents.org/). 
@@ -46,6 +46,6 @@ Inside source code of ```org.springframework.boot.maven.StartMojo.waitForSpringA
 I found that it waiting for JMX Mbean with name ```"org.springframework.boot:type=Admin,name=SpringApplication"```  But this Mbean is not created somehow by SpringApplication . I suspect it happened because of com.vaadin.flow.spring.SpringBootAutoConfiguration any case it was already beyond of my time limit because I spent too much time on this problem.  I even pointed directly to create this Mbean with key “spring.application.admin.enabled=true” but I broke other tests because this Mbean was already created inside this tests. 
 
 
-##Conclusion
+## Conclusion
 
 As outcome I can said that Vaadin will be very useful any Java Developer  who create or maintain  web application. Learning curve should be small. 
